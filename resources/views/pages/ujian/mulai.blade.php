@@ -1,6 +1,6 @@
 @extends('layout.app-ujian')
 
-@section('title', 'Ujian | SMKN 1 Sumbbawa')
+@section('title', 'Quiz | SMKN 1 Sumbbawa')
 
 @section('content')
 <!-- Style untuk timer-->

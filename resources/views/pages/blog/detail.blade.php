@@ -19,7 +19,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <table>
                             <tr>
                                 <td style="vertical-align: top">Konten</td>
@@ -27,9 +27,6 @@
                                 <td>{!! $blog->content_blog !!}</td>
                             </tr>
                         </table>
-                    </div>
-                    <div class="col-md-6">
-                        <img src="{{ asset('storage/'.$blog->thumbnail_blog) }}" width="100%" alt="" srcset="">
                     </div>
                 </div>
             </div>

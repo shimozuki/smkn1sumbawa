@@ -21,7 +21,6 @@
                                 <th>No</th>
                                 <th>Judul</th>
                                 <th>Thumbnail</th>
-                                <th>Tanggal Posting</th>
                                 <th width="10%">Aksi</th>
                             </tr>
                         </thead>
@@ -34,7 +33,6 @@
                                 <img src="{{ asset('storage/'.$item->thumbnail_blog) }}" width="200"
                                     alt="" srcset="">
                                 </td>
-                                <td>{{ substr($item->created_at,0,10) }}</td>
                                 <td>
                                     <a href="{{ route('admin.blog.detail',Crypt::encrypt($item->id)) }}"
                                         class="btn btn-warning">Detail</a>

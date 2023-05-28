@@ -57,13 +57,13 @@
               <div class="col-sm-6">
                 <div class="form-group">
                   <label class="form-control-label">Jam Mulai</label>
-                  <input type="time" class="form-control" name="jam_mulai" required>
+                  <input type="text" class="form-control" name="jam_mulai">
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="form-group">
                   <label class="form-control-label">Jam Selesai</label>
-                  <input type="time" class="form-control" name="jam_selesai" required>
+                  <input type="text" class="form-control" name="jam_selesai">
                 </div>
               </div>
             </div>

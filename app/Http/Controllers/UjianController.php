@@ -24,7 +24,8 @@ class UjianController extends Controller
     public function mulaiUjian($id)
     {
         $siswa = DB::table('siswas')->where('id_user', auth()->user()->id)->first();
-        if(Ujian::where('id_siswa', $siswa)->where('id_mapel', $id)->exists()) {
+        $ujian = Ujian::where('id_siswa', auth()->user()->id)->where('id_mapel', $id)->first();
+        if(!empty($ujian)) {
 
             Alert::error('Gagal', 'Tidak bisa diakses karena sudah melakukan ujian');
 
@@ -77,18 +78,16 @@ class UjianController extends Controller
             'id_mapel' => (int)$request->id_mapel,
             'nilai_final' => Ujian::where('id_siswa', auth()->user()->id)->where('id_mapel', $request->id_mapel)->where('betul', 1)->count('betul') * 2,
         ]);
-
         Alert::success('Berhasil', 'Ujian berhasil dilakukan');
 
-        return redirect('/ujian');
+        // print_r($hasil);
+        return redirect('/daftar-nilai');
     }
 
     public function daftarNilai()
     {
-        // $hasil = Hasil::with('siswa.user')->where('id_user', auth()->user()->id)->get();
-        $hasil = Hasil::whereHas('siswa', function ($query) {
-            return $query->where('id_user', auth()->user()->id);
-        })->get();
+        $hasil = DB::table('hasils')->join('mata_pelajarans',  'hasils.id_mapel', '=', 'mata_pelajarans.id')
+                ->join('siswas','hasils.id_siswa', '=', 'siswas.id_user')->where('siswas.id_user', auth()->user()->id)->get();
 
         return view('pages.ujian.daftar', compact('hasil'));
     }

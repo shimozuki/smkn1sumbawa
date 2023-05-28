@@ -36,6 +36,9 @@
             </a>
             <div class="collapse" id="navbar-forms">
               <ul class="nav nav-sm flex-column">
+              <li class="nav-item">
+                  <a href="/matapelajaran" class="nav-link">Mata Pelajaran</a>
+                </li>
                 <li class="{{Request::path() == 'admin/kelas' ? 'active' : '' }}">
                   <a href="{{ route('admin.kelas') }}" class="nav-link">Materi Praktikum</a>
                 </li>
@@ -188,7 +191,7 @@
           <li class="nav-item">
             <a class="nav-link {{Request::is('ujian') ? 'active' : ''}}" href="/ujian">
               <i class="far fa-file-alt text-success"></i>
-              <span class="nav-link-text">Ujian</span>
+              <span class="nav-link-text">Quiz</span>
             </a>
           </li>
 

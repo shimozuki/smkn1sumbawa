@@ -30,7 +30,7 @@
       <div class="card">
         <!-- Card header -->
         <div class="card-header">
-          <h3 class="mb-0">Data Nilai Ujian {{ auth()->user()->name }}</h3>
+          <h3 class="mb-0">Data Nilai Quiz {{ auth()->user()->name }}</h3>
         </div>
         <div class="table-responsive py-4">
           <table class="table table-flush" id="datatable-basic">
@@ -47,14 +47,14 @@
               @foreach ($hasil as $data)
                 <tr>
                   <td>{{$loop->iteration}}</td>
-                  <td>{{$data->mapel->nama_mapel}}</td>
+                  <td>{{$data->nama_mapel}}</td>
                   <td>{{$data->nilai_final}}</td>
                   @if ($data->nilai_final >= 70)
                   <td class="text-success">Lulus</td>
                   @else
                   <td class="text-danger">Mengulang</td>
                   @endif
-                  <td>{{$data->mapel->kelas}}</td>
+                  <td>{{$data->kelas}}</td>
                 </tr>
               @endforeach
             </tbody>
