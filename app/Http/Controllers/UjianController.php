@@ -33,10 +33,16 @@ class UjianController extends Controller
         }
         else {
             $soal = Soal::where('id_mapel', $id)->inRandomOrder()->limit(40)->get();
-
+            
+            $soal1 = Soal::where('id_mapel', $id)->inRandomOrder()->limit(40)->count('id');
+            $selisi =  DB::table('jadwals')
+            ->select(DB::raw('TIMESTAMPDIFF(MINUTE, jam_mulai, jam_selesai) AS selisih_menit'))
+            ->where('id_mapel', $id)
+            ->first();
+            
             $mapel = MataPelajaran::where('id', $id)->first();
     
-            return view('pages.ujian.mulai', compact('mapel', 'soal'));
+            return view('pages.ujian.mulai', compact('mapel', 'soal', 'soal1', 'selisi'));
         }
 
     }

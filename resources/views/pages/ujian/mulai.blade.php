@@ -71,14 +71,14 @@
         <div class="card-header">
           <div class="row">
             <div class="col-sm-4"><h3 class="mb-0">Nama Mata Pelajaran: {{ $mapel->nama_mapel }}</h3></div>
-            <div class="col-sm-4"><h3 class="text-center">Jumlah Soal: 50</h3></div>
-            <div class="col-sm-4"><h3 class="text-right">Waktu Ujian: 90 Menit</h3></div>
+            <div class="col-sm-4"><h3 class="text-center">Jumlah Soal: {{$soal1}}</h3></div>
+            <div class="col-sm-4"><h3 class="text-right">Waktu Ujian: {{ $selisi->selisih_menit }} Menit</h3></div>
           </div>
 
 
         </div>
         <!-- Pemanggilan timer -->
-        <div class="row mb-3" id="clockdiv">
+        <div class="row mb-3" id="clockdiv" data-end-time="{{ $selisi->selisih_menit }}">
             <h1 class="text-center">Ujian akan berakhir pada:</h1>
             <div>
                 <span class="hours"></span>
@@ -171,7 +171,8 @@ function initializeClock(id, endtime) {
   const timeinterval = setInterval(updateClock, 1000);
 }
 
-const deadline = new Date(Date.parse(new Date()) + 06 * 30 * 30 * 1000);
+const endTime = new Date(parseInt(document.getElementById('clockdiv').getAttribute('data-end-time')));
+const deadline = new Date(Date.parse(new Date()) + endTime.getTime() * 60 * 1000);
 initializeClock('clockdiv', deadline);
 
 // halaman akan tersubmit otomatis pada 1 jam 30 menit kedepan
