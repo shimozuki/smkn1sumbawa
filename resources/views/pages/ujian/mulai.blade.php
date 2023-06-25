@@ -55,6 +55,7 @@
               {{-- <li class="breadcrumb-item"><a href="#">Tables</a></li> --}}
               <li class="breadcrumb-item" aria-current="page">Mulai Ujian</li>
               <li class="breadcrumb-item active" aria-current="page">{{ $mapel->nama_mapel }}</li>
+              <a class="breadcrumb-item active" href="#" data-toggle="modal" data-target="#myModal">Help</a>
             </ol>
           </nav>
         </div>
@@ -128,6 +129,28 @@
     </div>
   </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Tata Cara Mengerjakan Soal</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Isi modal Anda di sini...</p>
+        <p>1. Kerjakan soal quiz dengan cara klik salah satu opsi, setelah semua soal quiz selesai klik next atau selanjutnya.</p>
+        <p>2. Jumlah soal antara 10 atau 20 soal pilihan ganda.</p>
+        <p>3. Klik Submit, tunggu hingga muncul keterangan jawaban berhasil disimpan.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 @push('addon-script')
 <script type="text/javascript">
