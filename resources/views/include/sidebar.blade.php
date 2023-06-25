@@ -72,6 +72,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a class="nav-link {{Request::is('tugas') ? 'active' : ''}}" href="{{ route('admin.tugas') }}">
+              <i class="fas fa-list-alt text-warnnig"></i>
+              <span class="nav-link-text">Tugas</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#navbar-forms" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-forms">
               <i class="ni ni-single-copy-04 text-pink"></i>
               <span class="nav-link-text">Data Quiz</span>
@@ -136,6 +142,18 @@
             </div>
           </li>
           <li class="nav-item">
+            <a class="nav-link {{Request::is('tugas') ? 'active' : ''}}" href="{{ route('admin.tugas') }}">
+              <i class="fas fa-list-alt text-warnnig"></i>
+              <span class="nav-link-text">Tugas</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{Request::is('tugas') ? 'active' : ''}}" href="{{ route('admin.pengumpulan') }}">
+              <i class="fas fa-calendar-alt text-warnnig"></i>
+              <span class="nav-link-text">Pegumpulan</span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="#navbar-forms" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-forms">
               <i class="ni ni-single-copy-04 text-pink"></i>
               <span class="nav-link-text">Data Quiz</span>
@@ -188,6 +206,12 @@
             <a class="nav-link {{Request::is('/') ? 'active' : ''}}" href="/">
               <i class="ni ni-shop text-primary"></i>
               <span class="nav-link-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{Request::is('tugas') ? 'active' : ''}}" href="{{ route('admin.tugas') }}">
+              <i class="fas fa-list-alt text-warnnig"></i>
+              <span class="nav-link-text">Tugas</span>
             </a>
           </li>
           <li class="nav-item">

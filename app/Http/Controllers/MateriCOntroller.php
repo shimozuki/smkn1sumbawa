@@ -18,15 +18,13 @@ use Illuminate\Support\Facades\DB;
 class MateriCOntroller extends Controller
 {
     public function index()
-    {
+    {   
         $cek_user = DB::table('gurus')->join('users', 'gurus.id_user', '=', 'users.id')->where('gurus.id_user', auth()->user()->id)->first();
         if (!empty($cek_user)) {
             $data = DB::table('video')->join('kelas', 'video.kelas_id', '=', 'kelas.id')->join('mata_pelajarans', 'video.id_mapel', '=', 'mata_pelajarans.id')->join('gurus', 'kelas.id_guru', '=', 'gurus.id')->where('gurus.id_user', auth()->user()->id)->select('video.id', 'video.name_video', 'kelas.nama_kelas', 'mata_pelajarans.nama_mapel')->get();
         }else{
             $data = DB::table('video')->join('kelas', 'video.kelas_id', '=', 'kelas.id')->join('mata_pelajarans', 'video.id_mapel', '=', 'mata_pelajarans.id')->join('siswas', 'kelas.id', '=', 'siswas.id_kelas')->where('siswas.id_user', auth()->user()->id)->select('video.id', 'video.name_video', 'kelas.nama_kelas', 'mata_pelajarans.nama_mapel')->get();
         }
-       
-        // echo $data;
         return view('pages.materi.index', compact('data'));
     }
 

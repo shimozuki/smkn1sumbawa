@@ -18,6 +18,7 @@ use App\Http\Controllers\MateriCOntroller;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\BeljarController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\TugasController;
 
 
 /*
@@ -80,4 +81,16 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,kepsek,guru,siswa']], fun
     Route::get('/admin/blog/detail/{id}', [BlogController::class,'detail'])->name('admin.blog.detail');
     Route::get('/admin/blog/edit/{id}', [BlogController::class,'edit'])->name('admin.blog.edit');
     Route::post('/admin/blog/update/{id}', [BlogController::class,'update'])->name('admin.blog.update');
+
+    Route::get('/admin/tugas', [TugasController::class, 'index'])->name('admin.tugas');
+    Route::get('/admin/pengumpulan', [TugasController::class, 'hal'])->name('admin.pengumpulan');
+    Route::get('/admin/tugas/tambah', [TugasController::class, 'tambah'])->name('admin.tugas.tambah');
+    Route::post('/admin/tugas/simpan', [TugasController::class,'simpan'])->name('admin.tugas.simpan');
+    Route::get('/admin/tugas/hapus/{id}', [TugasController::class,'hapus'])->name('admin.tugas.hapus');
+    Route::get('/admin/tugas/detail/{id}', [TugasController::class,'detail'])->name('admin.tugas.detail');
+    Route::get('/admin/tugas/detail/kumpul/{id}', [TugasController::class,'kumpul'])->name('admin.tugas.kumpul');
+    Route::post('/admin/tugas/simpan/kumpul/{id}', [TugasController::class,'simpantugas'])->name('admin.tugas.simpan.kumpul');
+    Route::get('/admin/tugas/edit/{id}', [TugasController::class,'edit'])->name('admin.tugas.edit');
+    Route::post('/admin/tugas/update/{id}', [TugasController::class,'update'])->name('admin.tugas.update');
+    Route::get('/download-file/{filename}', [TugasController::class,'downloadFile'])->name('download.file')->middleware('web');
 });
