@@ -92,5 +92,5 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,kepsek,guru,siswa']], fun
     Route::post('/admin/tugas/simpan/kumpul/{id}', [TugasController::class,'simpantugas'])->name('admin.tugas.simpan.kumpul');
     Route::get('/admin/tugas/edit/{id}', [TugasController::class,'edit'])->name('admin.tugas.edit');
     Route::post('/admin/tugas/update/{id}', [TugasController::class,'update'])->name('admin.tugas.update');
-    Route::get('/download-file/{filename}', [TugasController::class,'downloadFile'])->name('download.file')->middleware('web');
+    Route::get('{filename}', [TugasController::class, 'downloadFile'])->name('download.file');
 });

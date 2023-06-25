@@ -9,6 +9,7 @@ use App\Models\MataPelajaran;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Response;
 
 class TugasController extends Controller
 {
@@ -41,10 +42,15 @@ class TugasController extends Controller
 
     public function downloadFile($filename)
     {
-        $filePath = public_path('storage/' . $filename);
+        $file= public_path().$filename;
 
-        return response()->download($filePath);
+        $headers = array(
+                  'Content-Type: application/pdf',
+                );
+    
+        return response()->download($file, 'filename.pdf', $headers);
     }
+    
 
     public function detail($id)
     {
@@ -151,20 +157,13 @@ class TugasController extends Controller
         ]);
 
         if ($validator->fails()) {
-            DB::table('pengumpulann')->insert([
-                'id_siswa' => $request->input('id_siswa'),
-                'id_tugas' => $id,
-                'file' => $request->file('file')->store('thumbnail_tugas', 'public'),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
             return redirect()->route('admin.tugas.kumpul', $id)->withErrors($validator)->withInput();
         }
-
+        $file = $request->file('file');
         DB::table('pengumpulann')->insert([
             'id_siswa' => $request->input('id_siswa'),
             'id_tugas' => $id,
-            'file' => $request->file('file')->store('thumbnail_tugas', 'public'),
+            'file' => $file->move('thumbnail_tugas', $file.'.pdf'),
             'created_at' => now(),
             'updated_at' => now(),
         ]);

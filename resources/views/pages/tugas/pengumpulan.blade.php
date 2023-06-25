@@ -30,6 +30,7 @@
                                 <td>{{$item->nama_mapel}}</td>
                                 <td>
                                 <a href="{{ route('download.file', $item->file) }}" class="btn btn-warning">Download File</a>
+
                                 </td>
                             </tr>
                             @endforeach
