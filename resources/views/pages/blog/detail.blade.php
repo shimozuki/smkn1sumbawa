@@ -11,9 +11,7 @@
                         class="btn btn-warning">Edit</a>
                         <a href="{{ route('admin.blog.hapus', Crypt::encrypt($blog->id)) }}" class="btn btn-danger" onclick="confirmDelete()">Hapus</a>
 
-                    <button id="btn-back" class="btn btn-primary">
-                        Kembali
-                    </button>
+                        <a href="/admin/blog" class="btn btn-md btn-primary">Kembali</a>
                 </div>
                 @endif
             </div>

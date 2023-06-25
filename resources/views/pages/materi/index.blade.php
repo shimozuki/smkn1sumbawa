@@ -21,6 +21,7 @@
                                 <th>No</th>
                                 <th>Judul Materi</th>
                                 <th>Kelas</th>
+                                <th>Mata Pelajaran</th>
                                 <th width="10%">Aksi</th>
                             </tr>
                         </thead>
@@ -35,7 +36,10 @@
                                     {{ $item->nama_kelas}}
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.kelas.detail',Crypt::encrypt($item->id)) }}" class="btn btn-warning">Detail</a>
+                                    {{ $item->nama_mapel}}
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.kelas.detail',$item->id) }}" class="btn btn-warning">Detail</a>
                                 </td>
                             </tr>
                             @endforeach

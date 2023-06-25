@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Kelas;
 use App\Models\Ujian;
+use App\Models\MataPelajaran;
 use Illuminate\Support\Facades\DB;
 
 
@@ -20,9 +21,9 @@ class MateriCOntroller extends Controller
     {
         $cek_user = DB::table('gurus')->join('users', 'gurus.id_user', '=', 'users.id')->where('gurus.id_user', auth()->user()->id)->first();
         if (!empty($cek_user)) {
-            $data = DB::table('video')->join('kelas', 'video.kelas_id', '=', 'kelas.id')->join('gurus', 'kelas.id_guru', '=', 'gurus.id')->where('gurus.id_user', auth()->user()->id)->select('video.id', 'video.name_video', 'kelas.nama_kelas')->get();
+            $data = DB::table('video')->join('kelas', 'video.kelas_id', '=', 'kelas.id')->join('mata_pelajarans', 'video.id_mapel', '=', 'mata_pelajarans.id')->join('gurus', 'kelas.id_guru', '=', 'gurus.id')->where('gurus.id_user', auth()->user()->id)->select('video.id', 'video.name_video', 'kelas.nama_kelas', 'mata_pelajarans.nama_mapel')->get();
         }else{
-            $data = DB::table('video')->join('kelas', 'video.kelas_id', '=', 'kelas.id')->join('siswas', 'kelas.id', '=', 'siswas.id_kelas')->where('siswas.id_user', auth()->user()->id)->get();
+            $data = DB::table('video')->join('kelas', 'video.kelas_id', '=', 'kelas.id')->join('mata_pelajarans', 'video.id_mapel', '=', 'mata_pelajarans.id')->join('siswas', 'kelas.id', '=', 'siswas.id_kelas')->where('siswas.id_user', auth()->user()->id)->select('video.id', 'video.name_video', 'kelas.nama_kelas', 'mata_pelajarans.nama_mapel')->get();
         }
        
         // echo $data;
@@ -31,8 +32,9 @@ class MateriCOntroller extends Controller
 
     public function tambah()
     {
+       
         $data = [
-            'title' => 'Tambah Kelas',
+            'title' => 'Tambah Materi Praktikum',
         ];
         return view('pages.materi.tambahvideo', $data);
     }
@@ -64,11 +66,10 @@ class MateriCOntroller extends Controller
 
     public function detail($id)
     {
-        $dec_id = Crypt::decrypt($id);
-        $kelas = Materi::find($dec_id);
-        $title = 'Detail Kelas';
-        $video = Materi::join('video', 'materi.id', '=', 'video.kelas_id')->where('materi.id', $dec_id)->get();
-        return view('pages.materi.detail', compact('kelas', 'video', 'title'));
+        $video = DB::table('video')->join('kelas', 'video.kelas_id', '=', 'kelas.id')->where('video.id', $id)->select('video.name_video', 'video.url_video', 'video.id')->first();
+        // echo $id;
+        // dd($video);
+        return view('pages.materi.detail', compact('video'));
     }
 
     public function hapus($id)
@@ -83,55 +84,45 @@ class MateriCOntroller extends Controller
 
     public function edit($id)
     {
-        $dec_id = Crypt::decrypt($id);
-        $data = [
-            'title' => 'Edit Kelas',
-            'kelas' => Materi::find($dec_id)
-        ];
-        return view('pages.materi.edit', $data);
+        // $dec_id = Crypt::decrypt($id);
+        $title = 'Edit Materi Praktikum';
+        $video = DB::table('video')->join('kelas', 'video.kelas_id', '=', 'kelas.id')->where('video.id', $id)->select('video.name_video', 'video.url_video', 'video.id AS video_id', 'kelas.id AS kelas_id', 'video.id_mapel')->first();
+        $kelasV = Kelas::all();
+        $mapel = MataPelajaran::all();
+        return view('pages.materi.edit', compact('title', 'video', 'kelasV', 'mapel'));
     }
 
     public function update(Request $request, $id)
     {
-        $dec_id = Crypt::decrypt($id);
+        // $dec_id = Crypt::decrypt($id);
         $validator = Validator($request->all(), [
-            'name_kelas' => 'required',
-            'type_kelas' => 'required',
-            'description_kelas' => 'required',
-            'thumbnail' => 'mimes:png,jpg,jpeg'
+            'name_video' => 'required',
+            'url_video' => 'required',
+            'kelas_id' => 'required',
+            'id_mapel' => 'required'
         ]);
 
         if ($validator->fails()) {
             return redirect()->route('admin.kelas.edit', $id)->withErrors($validator)->withInput();
         } else {
-
-            $kelas = Materi::find($dec_id);
-            if ($request->file('thumbnail')) {
-                Storage::delete('public/'.'public/'.$kelas->thumbnail);
-                $file = $request->file('thumbnail')->store('thumbnail_kelas', 'public');
-                $kelas->name_kelas = $request->name_kelas;
-                $kelas->type_kelas = Crypt::decrypt($request->type_kelas);
-                $kelas->description_kelas = $request->description_kelas;
-                $kelas->thumbnail = $file;
-            } else {
-                $kelas->name_kelas = $request->name_kelas;
-                $kelas->type_kelas = Crypt::decrypt($request->type_kelas);
-                $kelas->description_kelas = $request->description_kelas;
-            }
-            $kelas->save();
+            DB::table('video')
+            ->where('id', $id)
+            ->update([
+                'name_video' => $request->input('name_video'),
+                'url_video' => $request->input('url_video'),
+                'kelas_id' => $request->input('kelas_id'),
+                'id_mapel' => $request->input('id_mapel')
+            ]);
             return redirect()->route('admin.kelas.detail',$id)->with('status', 'Berhasil Memperbarui Kelas');
         }
     }
 
     public function tambahvideo()
     {
-        // $data = [
-        //     'title' => 'Tambah Video Materi',
-        //     'id' => $id
-        // ];
         $kelas = Kelas::all();
+        $mapel = MataPelajaran::all();
 
-        return view('pages.materi.tambahvideo', compact('kelas'));
+        return view('pages.materi.tambahvideo', compact('kelas','mapel'));
     }
 
     public function simpanvideo(Request $request)
@@ -141,6 +132,7 @@ class MateriCOntroller extends Controller
             'name_video' => 'required',
             'url_video' => 'required',
             'kelas_id' => 'required',
+            'id_mapel' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -150,6 +142,7 @@ class MateriCOntroller extends Controller
                 'name_video' => $request->name_video,
                 'kelas_id' => $request->kelas_id,
                 'url_video' => $request->url_video,
+                'id_mapel' => $request->id_mapel,
             ];
             // Video::insert($obj);
             DB::table('video')->insert($obj);
@@ -157,10 +150,10 @@ class MateriCOntroller extends Controller
         }
     }
 
-    public function hapusvideo($id,$idkelas)
+    public function hapusvideo($id)
     {
         $dec_id = Crypt::decrypt($id);
         Video::where('id','=',$dec_id)->delete();
-        return redirect()->route('admin.kelas.detail',$idkelas)->with('status', 'Berhasil Menghapus Video Materi');
+        return redirect()->route('admin.kelas')->with('status', 'Berhasil Menghapus Video Materi');
     }
 }

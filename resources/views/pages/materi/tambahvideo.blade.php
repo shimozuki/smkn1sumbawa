@@ -6,9 +6,7 @@
             <div class="card-header">
                 <h4>Tambah Materi Praktikum</h4>
                 <div class="card-header-action">
-                    <button id="btn-back" class="btn btn-primary">
-                        Kembali
-                    </button>
+                <a href="/materi" class="btn btn-md btn-primary">Kembali</a>
                 </div>
             </div>
             <div class="card-body">
@@ -20,6 +18,15 @@
                             <option selected hidden>Pilih Kelas</option>
                             @foreach ($kelas as $data)
                             <option value="{{ $data->id }}">{{ $data->nama_kelas }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label">Mata Pelajaran</label>
+                        <select class="form-control" data-toggle="select" name="id_mapel" required>
+                            <option selected hidden>Pilih Mapel</option>
+                            @foreach ($mapel as $data)
+                            <option value="{{ $data->id }}">{{ $data->nama_mapel }}</option>
                             @endforeach
                         </select>
                     </div>

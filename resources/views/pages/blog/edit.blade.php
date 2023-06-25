@@ -6,9 +6,7 @@
             <div class="card-header">
                 <h4>Edit Materi</h4>
                 <div class="card-header-action">
-                    <button id="btn-back" class="btn btn-primary">
-                        Kembali
-                    </button>
+                <a href="/admin/blog" class="btn btn-md btn-primary">Kembali</a>
                 </div>
             </div>
             <div class="card-body">
