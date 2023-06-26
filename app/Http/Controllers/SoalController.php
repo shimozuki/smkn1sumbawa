@@ -21,7 +21,8 @@ class SoalController extends Controller
      */
     public function index()
     {
-        $soal = Soal::all();
+        $soal =
+            DB::table('soals')->join('mata_pelajarans', 'soals.id_mapel', '=', 'mata_pelajarans.id')->select('soals.*', 'mata_pelajarans.nama_mapel')->get();
 
         return view('pages.soal.index', compact('soal'));
     }
@@ -54,20 +55,20 @@ class SoalController extends Controller
         libxml_use_internal_errors(true);
         $dom->loadHTML($request->nama_soal, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
         libxml_clear_errors();
-        $images= $dom->getElementsByTagName('img');
+        $images = $dom->getElementsByTagName('img');
         foreach ($images as $img) {
-            $src=$img->getAttribute('src');
-            if(preg_match('/data:image/',$src)) {
-                preg_match('/data:image\/(?<mime>.*?)\;/', $src,$groups);
-                $mimetype=$groups['mime'];
+            $src = $img->getAttribute('src');
+            if (preg_match('/data:image/', $src)) {
+                preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
+                $mimetype = $groups['mime'];
                 $fileNameContent = uniqid();
-                $fileNameContentRand= substr(md5($fileNameContent),6,6).'_'.time();
-                $filePath=("$storage/$fileNameContentRand.$mimetype");
-                $image=Image::make($src)
-                        ->resize(1200,1200)
-                        ->encode($mimetype, 100)
-                        ->save(public_path($filePath));
-                $new_src=asset($filePath);
+                $fileNameContentRand = substr(md5($fileNameContent), 6, 6) . '_' . time();
+                $filePath = ("$storage/$fileNameContentRand.$mimetype");
+                $image = Image::make($src)
+                    ->resize(1200, 1200)
+                    ->encode($mimetype, 100)
+                    ->save(public_path($filePath));
+                $new_src = asset($filePath);
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
                 // $img->setAttribute('class', 'img-responsive');
@@ -78,11 +79,11 @@ class SoalController extends Controller
 
         $soal = Soal::create($data);
 
-        if(count($request->nama_opsi) > 0) {
-            foreach ($request->nama_opsi as $item=>$v) {
-                $dataOpsi=array(
-                    'id_soal'=>$soal->id,
-                    'nama_opsi'=>$request->nama_opsi[$item]
+        if (count($request->nama_opsi) > 0) {
+            foreach ($request->nama_opsi as $item => $v) {
+                $dataOpsi = array(
+                    'id_soal' => $soal->id,
+                    'nama_opsi' => $request->nama_opsi[$item]
                 );
                 Opsi::create($dataOpsi);
             }
@@ -130,26 +131,26 @@ class SoalController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        
+
         $storage = "storage/content";
         $dom = new \DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadHTML($request->nama_soal, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NOIMPLIED);
         libxml_clear_errors();
-        $images= $dom->getElementsByTagName('img');
+        $images = $dom->getElementsByTagName('img');
         foreach ($images as $img) {
-            $src=$img->getAttribute('src');
-            if(preg_match('/data:image/',$src)) {
-                preg_match('/data:image\/(?<mime>.*?)\;/', $src,$groups);
-                $mimetype=$groups['mime'];
+            $src = $img->getAttribute('src');
+            if (preg_match('/data:image/', $src)) {
+                preg_match('/data:image\/(?<mime>.*?)\;/', $src, $groups);
+                $mimetype = $groups['mime'];
                 $fileNameContent = uniqid();
-                $fileNameContentRand= substr(md5($fileNameContent),6,6).'_'.time();
-                $filePath=("$storage/$fileNameContentRand.$mimetype");
-                $image=Image::make($src)
-                        ->resize(1200,1200)
-                        ->encode($mimetype, 100)
-                        ->save(public_path($filePath));
-                $new_src=asset($filePath);
+                $fileNameContentRand = substr(md5($fileNameContent), 6, 6) . '_' . time();
+                $filePath = ("$storage/$fileNameContentRand.$mimetype");
+                $image = Image::make($src)
+                    ->resize(1200, 1200)
+                    ->encode($mimetype, 100)
+                    ->save(public_path($filePath));
+                $new_src = asset($filePath);
                 $img->removeAttribute('src');
                 $img->setAttribute('src', $new_src);
                 $img->setAttribute('class', 'img-responsive');
@@ -161,13 +162,13 @@ class SoalController extends Controller
         $soal = Soal::find($id);
         $soal->update($data);
 
-        if(count($request->id_opsi) > 0) {
-            foreach ($request->id_opsi as $item=>$v) {
-            $dataOpsi=array(
-              'nama_opsi'=>$request->nama_opsi[$item]
-            );
-            $opsi = Opsi::where('id', $request->id_opsi[$item])->first();
-            $opsi->update($dataOpsi);
+        if (count($request->id_opsi) > 0) {
+            foreach ($request->id_opsi as $item => $v) {
+                $dataOpsi = array(
+                    'nama_opsi' => $request->nama_opsi[$item]
+                );
+                $opsi = Opsi::where('id', $request->id_opsi[$item])->first();
+                $opsi->update($dataOpsi);
             }
         }
 

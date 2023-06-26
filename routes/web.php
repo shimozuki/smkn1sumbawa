@@ -36,13 +36,14 @@ use App\Http\Controllers\TugasController;
 Route::get('login', [AuthController::class, 'showFormLogin'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/', [AuthController::class, 'login']);
 Route::get('/about', 'front\WelcomeController@about')->name('about');
 Route::get('/belajar', [BeljarController::class, 'index'])->name('kelasb');
 Route::get('/belajar/detail/{id}', [BeljarController::class, 'detail'])->name('kelasb.detail');
 Route::get('/belajar/pelajar/{id}/{idvideo}', [BeljarController::class, 'belajar'])->name('kelasb.belajar');
 
-Route::group(['middleware' => ['auth', 'ceklevel:admin,kepsek,guru,siswa']], function() {
+Route::group(['middleware' => ['auth', 'ceklevel:admin,kepsek,guru,siswa']], function () {
     Route::get('/home', [HomeController::class, 'index'])->name('dashboard');
 
     Route::resource('siswa', SiswaController::class);
@@ -76,21 +77,21 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,kepsek,guru,siswa']], fun
     //Blog
     Route::get('/admin/blog', [BlogController::class, 'index'])->name('admin.blog');
     Route::get('/admin/blog/tambah', [BlogController::class, 'tambah'])->name('admin.blog.tambah');
-    Route::post('/admin/blog/simpan', [BlogController::class,'simpan'])->name('admin.blog.simpan');
-    Route::get('/admin/blog/hapus/{id}', [BlogController::class,'hapus'])->name('admin.blog.hapus');
-    Route::get('/admin/blog/detail/{id}', [BlogController::class,'detail'])->name('admin.blog.detail');
-    Route::get('/admin/blog/edit/{id}', [BlogController::class,'edit'])->name('admin.blog.edit');
-    Route::post('/admin/blog/update/{id}', [BlogController::class,'update'])->name('admin.blog.update');
+    Route::post('/admin/blog/simpan', [BlogController::class, 'simpan'])->name('admin.blog.simpan');
+    Route::get('/admin/blog/hapus/{id}', [BlogController::class, 'hapus'])->name('admin.blog.hapus');
+    Route::get('/admin/blog/detail/{id}', [BlogController::class, 'detail'])->name('admin.blog.detail');
+    Route::get('/admin/blog/edit/{id}', [BlogController::class, 'edit'])->name('admin.blog.edit');
+    Route::post('/admin/blog/update/{id}', [BlogController::class, 'update'])->name('admin.blog.update');
 
     Route::get('/admin/tugas', [TugasController::class, 'index'])->name('admin.tugas');
     Route::get('/admin/pengumpulan', [TugasController::class, 'hal'])->name('admin.pengumpulan');
     Route::get('/admin/tugas/tambah', [TugasController::class, 'tambah'])->name('admin.tugas.tambah');
-    Route::post('/admin/tugas/simpan', [TugasController::class,'simpan'])->name('admin.tugas.simpan');
-    Route::get('/admin/tugas/hapus/{id}', [TugasController::class,'hapus'])->name('admin.tugas.hapus');
-    Route::get('/admin/tugas/detail/{id}', [TugasController::class,'detail'])->name('admin.tugas.detail');
-    Route::get('/admin/tugas/detail/kumpul/{id}', [TugasController::class,'kumpul'])->name('admin.tugas.kumpul');
-    Route::post('/admin/tugas/simpan/kumpul/{id}', [TugasController::class,'simpantugas'])->name('admin.tugas.simpan.kumpul');
-    Route::get('/admin/tugas/edit/{id}', [TugasController::class,'edit'])->name('admin.tugas.edit');
-    Route::post('/admin/tugas/update/{id}', [TugasController::class,'update'])->name('admin.tugas.update');
+    Route::post('/admin/tugas/simpan', [TugasController::class, 'simpan'])->name('admin.tugas.simpan');
+    Route::get('/admin/tugas/hapus/{id}', [TugasController::class, 'hapus'])->name('admin.tugas.hapus');
+    Route::get('/admin/tugas/detail/{id}', [TugasController::class, 'detail'])->name('admin.tugas.detail');
+    Route::get('/admin/tugas/detail/kumpul/{id}', [TugasController::class, 'kumpul'])->name('admin.tugas.kumpul');
+    Route::post('/admin/tugas/simpan/kumpul/{id}', [TugasController::class, 'simpantugas'])->name('admin.tugas.simpan.kumpul');
+    Route::get('/admin/tugas/edit/{id}', [TugasController::class, 'edit'])->name('admin.tugas.edit');
+    Route::post('/admin/tugas/update/{id}', [TugasController::class, 'update'])->name('admin.tugas.update');
     Route::get('{filename}', [TugasController::class, 'downloadFile'])->name('download.file');
 });

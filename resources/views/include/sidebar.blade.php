@@ -36,7 +36,7 @@
             </a>
             <div class="collapse" id="navbar-forms">
               <ul class="nav nav-sm flex-column">
-              <li class="nav-item">
+                <li class="nav-item">
                   <a href="/matapelajaran" class="nav-link">Mata Pelajaran</a>
                 </li>
                 <li class="{{Request::path() == 'admin/kelas' ? 'active' : '' }}">
@@ -123,13 +123,13 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#navbar-forms" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-forms">
+            <a class="nav-link" href="#navbar-forms1" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-forms">
               <i class="fas fa-university"></i>
               <span class="nav-link-text">Data Materi</span>
             </a>
-            <div class="collapse" id="navbar-forms">
+            <div class="collapse" id="navbar-forms1">
               <ul class="nav nav-sm flex-column">
-              <li class="nav-item">
+                <li class="nav-item">
                   <a href="/matapelajaran" class="nav-link">Mata Pelajaran</a>
                 </li>
                 <li class="{{Request::path() == 'admin/kelas' ? 'active' : '' }}">
@@ -150,7 +150,7 @@
           <li class="nav-item">
             <a class="nav-link {{Request::is('tugas') ? 'active' : ''}}" href="{{ route('admin.pengumpulan') }}">
               <i class="fas fa-calendar-alt text-warnnig"></i>
-              <span class="nav-link-text">Pegumpulan</span>
+              <span class="nav-link-text">Pengumpulan</span>
             </a>
           </li>
           <li class="nav-item">
@@ -160,9 +160,6 @@
             </a>
             <div class="collapse" id="navbar-forms">
               <ul class="nav nav-sm flex-column">
-                <li class="nav-item">
-                  <a href="/matapelajaran" class="nav-link">Mata Pelajaran</a>
-                </li>
                 <li class="nav-item">
                   <a href="/soal" class="nav-link">Soal</a>
                 </li>

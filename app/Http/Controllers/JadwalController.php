@@ -18,7 +18,7 @@ class JadwalController extends Controller
      */
     public function index()
     {
-        $jadwal = Jadwal::all();
+        $jadwal = DB::table('jadwals')->join('mata_pelajarans', 'jadwals.id_mapel', '=', 'mata_pelajarans.id')->select('jadwals.*', 'mata_pelajarans.nama_mapel')->get();
 
         return view('pages.jadwal.index', compact('jadwal'));
     }
