@@ -47,12 +47,8 @@ class UjianController extends Controller
     }
     public function kirimJawaban(Request $request)
     {
-        // mendapatkan data login
-        // $user = auth()->user()->mahasiswa;
         $siswa = DB::table('siswas')->where('id_user', auth()->user()->id)->first();
         $data = $request->all();
-        // dd($mahasiswa[0]);
-        // exit();
 
         for ($i = 1; $i <= $request->index; $i++) {
 

@@ -64,4 +64,16 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  // Replace the current history state with a new state
+  function disableBackButton() {
+    window.history.pushState(null, document.title, window.location.href);
+  }
+
+  // Disable the back button when the page is loaded
+  window.addEventListener('load', disableBackButton);
+
+  // Disable the back button when the user navigates using the browser's navigation buttons
+  window.addEventListener('popstate', disableBackButton);
+</script>
 @endsection

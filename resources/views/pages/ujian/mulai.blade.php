@@ -73,7 +73,7 @@
           <div class="row">
             <div class="col-sm-4"><h3 class="mb-0">Nama Mata Pelajaran: {{ $mapel->nama_mapel }}</h3></div>
             <div class="col-sm-4"><h3 class="text-center">Jumlah Soal: {{$soal1}}</h3></div>
-            <div class="col-sm-4"><h3 class="text-right">Waktu Ujian: {{ $selisi->selisih_menit }} Menit</h3></div>
+            <div class="col-sm-4"><h3 class="text-right" id="waktum">Waktu Ujian: {{ $selisi->selisih_menit }} Menit</h3></div>
           </div>
 
 
@@ -111,7 +111,7 @@
                         </h5>
                         @foreach ($value->opsi as $op)
                         <li class="ml-5">
-                            <input type="radio" name="jawaban{{$key+1}}" value="{{$op->nama_opsi}}">
+                            <input type="radio" name="jawaban{{$key+1}}" value="{{$op->nama_opsi}}" required>
                             {{$op->nama_opsi}}
                         </li>
                         @endforeach
@@ -154,51 +154,84 @@
 @endsection
 @push('addon-script')
 <script type="text/javascript">
-   // Fitur timer (hasil copas awkwkkwk)
-  function getTimeRemaining(endtime) {
-  const total = Date.parse(endtime) - Date.parse(new Date());
-  const seconds = Math.floor((total / 1000) % 60);
-  const minutes = Math.floor((total / 1000 / 60) % 60);
-  const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
-  
-  return {
-    total,
-    hours,
-    minutes,
-    seconds
-  };
-}
-
-function initializeClock(id, endtime) {
-  const clock = document.getElementById(id);
-  const hoursSpan = clock.querySelector('.hours');
-  const minutesSpan = clock.querySelector('.minutes');
-  const secondsSpan = clock.querySelector('.seconds');
-
-  function updateClock() {
-    const t = getTimeRemaining(endtime);
-
-    hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-    minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-    secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-    if (t.total <= 0) {
-      clearInterval(timeinterval);
+  // Function to get the remaining time from the storage or calculate a new value
+  function getRemainingTime() {
+    const storedTime = localStorage.getItem('deadline');
+    if (storedTime) {
+      return Date.parse(storedTime) - Date.parse(new Date());
+    } else {
+      const endTime = new Date(parseInt(document.getElementById('clockdiv').getAttribute('data-end-time')));
+      return endTime.getTime() * 60 * 1000;
     }
   }
 
-  updateClock();
-  const timeinterval = setInterval(updateClock, 1000);
-}
+  // Function to save the deadline in the storage
+  function saveDeadline(deadline) {
+    localStorage.setItem('deadline', deadline);
+  }
 
-const endTime = new Date(parseInt(document.getElementById('clockdiv').getAttribute('data-end-time')));
-const deadline = new Date(Date.parse(new Date()) + endTime.getTime() * 60 * 1000);
-initializeClock('clockdiv', deadline);
+  // Fitur timer (hasil copas awkwkkwk)
+  function getTimeRemaining(endtime) {
+    const total = getRemainingTime();
+    const seconds = Math.floor((total / 1000) % 60);
+    const minutes = Math.floor((total / 1000 / 60) % 60);
+    const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
 
-// halaman akan tersubmit otomatis pada 1 jam 30 menit kedepan
-window.setTimeout(function() {
-        document.getElementById("submit").click();
-    }, 5400000);
+    return {
+      total,
+      hours,
+      minutes,
+      seconds
+    };
+  }
+
+  function initializeClock(id, endtime) {
+    const clock = document.getElementById(id);
+    const hoursSpan = clock.querySelector('.hours');
+    const minutesSpan = clock.querySelector('.minutes');
+    const secondsSpan = clock.querySelector('.seconds');
+
+    function updateClock() {
+      const t = getTimeRemaining(endtime);
+
+      hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+      minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+      secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+      if (t.total <= 0) {
+        clearInterval(timeinterval);
+      }
+    }
+
+    updateClock();
+    const timeinterval = setInterval(updateClock, 1000);
+  }
+
+  const deadline = new Date(Date.parse(new Date()) + getRemainingTime());
+  initializeClock('clockdiv', deadline);
+
+  // Save the deadline when the page is unloaded or refreshed
+  window.addEventListener('beforeunload', function () {
+    saveDeadline(deadline);
+  });
+
+  // halaman akan tersubmit otomatis pada 1 jam 30 menit kedepan
+  window.setTimeout(function () {
+    document.getElementById("submit").click();
+  }, getRemainingTime());
 
 </script>
+<script type="text/javascript">
+  // Replace the current history state with a new state
+  function disableBackButton() {
+    window.history.pushState(null, document.title, window.location.href);
+  }
+
+  // Disable the back button when the page is loaded
+  window.addEventListener('load', disableBackButton);
+
+  // Disable the back button when the user navigates using the browser's navigation buttons
+  window.addEventListener('popstate', disableBackButton);
+</script>
+
 @endpush
