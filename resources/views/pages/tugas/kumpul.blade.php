@@ -4,9 +4,9 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h4>Tambabh Materi</h4>
+                <h4>Tambah Materi</h4>
                 <div class="card-header-action">
-                <a href="/admin/tugas" class="btn btn-md btn-primary">Kembali</a>
+                    <a href="/admin/tugas" class="btn btn-md btn-primary">Kembali</a>
                 </div>
             </div>
             <div class="card-body">
