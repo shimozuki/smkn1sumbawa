@@ -71,10 +71,13 @@ class UjianController extends Controller
         }
 
         // insert data ke tabel hasil yang dijadikan sebagai acuan
+        $benar = Ujian::where('id_siswa', auth()->user()->id)->where('id_mapel', $request->id_mapel)->where('betul', 1)->count('betul');
+        $jlm_soal = DB::table('soals')->where('id_mapel', $request->id_mapel)->count('id');
+        $hasil = ($benar / $jlm_soal) * 100;
         $hasil = Hasil::create([
             'id_siswa' => auth()->user()->id,
             'id_mapel' => (int)$request->id_mapel,
-            'nilai_final' => Ujian::where('id_siswa', auth()->user()->id)->where('id_mapel', $request->id_mapel)->where('betul', 1)->count('betul') * 2,
+            'nilai_final' =>  $hasil,
         ]);
         Alert::success('Berhasil', 'Ujian berhasil dilakukan');
 
