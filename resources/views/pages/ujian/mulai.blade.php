@@ -159,9 +159,8 @@
 @endsection
 @push('addon-script')
 <script type="text/javascript">
-  // Fitur timer (wkwkwkwkwk)
   function getTimeRemaining(endtime) {
-    const total = getRemainingTime();
+    const total = Date.parse(endtime) - Date.parse(new Date());
     const seconds = Math.floor((total / 1000) % 60);
     const minutes = Math.floor((total / 1000 / 60) % 60);
     const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
@@ -189,44 +188,80 @@
 
       if (t.total <= 0) {
         clearInterval(timeinterval);
+        removeRequiredAttribute();
+        document.getElementById("submit").click();
+        clearSessionTime(); // Clear session time when time runs out
       }
+    }
+
+    function removeRequiredAttribute() {
+      const radioInputs = document.querySelectorAll('input[type="radio"]');
+      radioInputs.forEach(function (input) {
+        input.removeAttribute('required');
+      });
+    }
+
+    function clearSessionTime() {
+      localStorage.removeItem('sessionEndTime');
     }
 
     updateClock();
     const timeinterval = setInterval(updateClock, 1000);
   }
 
-  const deadline = new Date(Date.parse(new Date()) + getRemainingTime());
+  const storedEndTime = localStorage.getItem('sessionEndTime');
+  let deadline;
+
+  if (storedEndTime) {
+    deadline = new Date(storedEndTime);
+  } else {
+    const endTime = parseInt(document.getElementById('clockdiv').dataset.endTime) * 60000;
+    deadline = new Date(Date.parse(new Date()) + endTime);
+    localStorage.setItem('sessionEndTime', deadline);
+  }
+
   initializeClock('clockdiv', deadline);
 
-  window.addEventListener('beforeunload', function() {
-    saveDeadline(deadline);
-  });
-
-  window.setTimeout(function() {
+  // Set timeout to clear session time and submit form after 1 hour 30 minutes
+  window.setTimeout(function () {
+    removeRequiredAttribute();
     document.getElementById("submit").click();
-  }, getRemainingTime());
+    clearSessionTime(); // Clear session time when time runs out
+  }, parseInt(document.getElementById('clockdiv').dataset.endTime) * 60000);
+</script>
 
-    // Function to get the remaining time from the storage or calculate a new value
-    function getRemainingTime() {
-    const storedTime = localStorage.getItem('deadline');
-    if (storedTime) {
-      return Date.parse(storedTime) - Date.parse(new Date());
-    } else {
-      const endTime = new Date(parseInt(document.getElementById('clockdiv').getAttribute('data-end-time')));
-      return endTime.getTime() * 60 * 1000;
+<script type="text/javascript">
+  function disableKeys(e) {
+    if (
+      (e.keyCode === 8 && (e.key === "Backspace" || e.code === "Backspace")) || // Tombol Backspace
+      (e.keyCode === 37 && (e.key === "ArrowLeft" || e.code === "ArrowLeft")) || // Tombol Panah Kiri
+      (e.ctrlKey && (e.keyCode === 82 && (e.key === "r" || e.code === "KeyR"))) ||
+      function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); }
+      // Ctrl + R
+    ) {
+      e.preventDefault();
     }
   }
-  // Function to save the deadline in the storage
-  function saveDeadline(deadline) {
-    localStorage.setItem('deadline', deadline);
+
+  function disableReload() {
+    document.onkeydown = disableKeys;
+    document.onwheel = disableKeys;
   }
-</script>
-<script type="text/javascript">
+
   function disableBackButton() {
     window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function() {
+      window.history.pushState(null, document.title, window.location.href);
+    });
   }
-  window.addEventListener('load', disableBackButton);
-  window.addEventListener('popstate', disableBackButton);
+
+  window.addEventListener('load', function() {
+    disableReload();
+    disableBackButton();
+  });
 </script>
+
+
+
+
 @endpush
