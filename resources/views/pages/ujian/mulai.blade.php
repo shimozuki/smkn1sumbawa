@@ -126,7 +126,7 @@
             </div>
             @endforeach
             <div class="modal-footer">
-              <button type="submit" name="submit" id="submit" class="btn btn-primary" onclick="handleFinish()">Selesai</button>
+              <button type="submit" name="submit" id="submit" class="btn btn-primary">Selesai</button>
             </div>
           </form>
         </div>
@@ -159,6 +159,15 @@
 @endsection
 @push('addon-script')
 <script type="text/javascript">
+  const submitButton = document.getElementById("submit");
+
+  submitButton.addEventListener("click", handleFinish);
+
+  function handleFinish() {
+    localStorage.removeItem('sessionEndTime');
+  }
+
+
   function getTimeRemaining(endtime) {
     const total = Date.parse(endtime) - Date.parse(new Date());
     const seconds = Math.floor((total / 1000) % 60);
@@ -196,7 +205,7 @@
 
     function removeRequiredAttribute() {
       const radioInputs = document.querySelectorAll('input[type="radio"]');
-      radioInputs.forEach(function (input) {
+      radioInputs.forEach(function(input) {
         input.removeAttribute('required');
       });
     }
@@ -223,7 +232,7 @@
   initializeClock('clockdiv', deadline);
 
   // Set timeout to clear session time and submit form after 1 hour 30 minutes
-  window.setTimeout(function () {
+  window.setTimeout(function() {
     removeRequiredAttribute();
     document.getElementById("submit").click();
     clearSessionTime(); // Clear session time when time runs out
@@ -236,7 +245,9 @@
       (e.keyCode === 8 && (e.key === "Backspace" || e.code === "Backspace")) || // Tombol Backspace
       (e.keyCode === 37 && (e.key === "ArrowLeft" || e.code === "ArrowLeft")) || // Tombol Panah Kiri
       (e.ctrlKey && (e.keyCode === 82 && (e.key === "r" || e.code === "KeyR"))) ||
-      function disableF5(e) { if ((e.which || e.keyCode) == 116) e.preventDefault(); }
+      function disableF5(e) {
+        if ((e.which || e.keyCode) == 116) e.preventDefault();
+      }
       // Ctrl + R
     ) {
       e.preventDefault();
