@@ -173,7 +173,7 @@
   function saveDeadline(deadline) {
     localStorage.setItem('deadline', deadline);
   }
-  // Fitur timer (hasil copas awkwkkwk)
+  // Fitur timer (wkwkwkwkwk)
   function getTimeRemaining(endtime) {
     const total = getRemainingTime();
     const seconds = Math.floor((total / 1000) % 60);
@@ -218,21 +218,9 @@
     saveDeadline(deadline);
   });
 
-  // halaman akan tersubmit otomatis pada 1 jam 30 menit kedepan
   window.setTimeout(function() {
     document.getElementById("submit").click();
   }, getRemainingTime());
-
-  function removeDeadlineFromLocalStorage() {
-    localStorage.removeItem('deadline');
-  }
-
-  function handleFinish() {
-    // Tambahkan tindakan yang ingin Anda lakukan saat tombol "Selesai" diklik di sini
-    // Misalnya, menghapus waktu dari local storage
-    removeDeadlineFromLocalStorage();
-    // Tambahkan tindakan lain yang ingin Anda lakukan setelah selesai di sini
-  }
 </script>
 <script type="text/javascript">
   // Replace the current history state with a new state

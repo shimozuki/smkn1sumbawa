@@ -150,8 +150,7 @@ class MateriCOntroller extends Controller
 
     public function hapusvideo($id)
     {
-        $dec_id = Crypt::decrypt($id);
-        Video::where('id','=',$dec_id)->delete();
+        Video::where('id','=',$id)->delete();
         return redirect()->route('admin.kelas')->with('status', 'Berhasil Menghapus Video Materi');
     }
 }
