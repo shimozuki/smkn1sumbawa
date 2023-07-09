@@ -159,20 +159,6 @@
 @endsection
 @push('addon-script')
 <script type="text/javascript">
-  // Function to get the remaining time from the storage or calculate a new value
-  function getRemainingTime() {
-    const storedTime = localStorage.getItem('deadline');
-    if (storedTime) {
-      return Date.parse(storedTime) - Date.parse(new Date());
-    } else {
-      const endTime = new Date(parseInt(document.getElementById('clockdiv').getAttribute('data-end-time')));
-      return endTime.getTime() * 60 * 1000;
-    }
-  }
-  // Function to save the deadline in the storage
-  function saveDeadline(deadline) {
-    localStorage.setItem('deadline', deadline);
-  }
   // Fitur timer (wkwkwkwkwk)
   function getTimeRemaining(endtime) {
     const total = getRemainingTime();
@@ -213,7 +199,6 @@
   const deadline = new Date(Date.parse(new Date()) + getRemainingTime());
   initializeClock('clockdiv', deadline);
 
-  // Save the deadline when the page is unloaded or refreshed
   window.addEventListener('beforeunload', function() {
     saveDeadline(deadline);
   });
@@ -221,17 +206,27 @@
   window.setTimeout(function() {
     document.getElementById("submit").click();
   }, getRemainingTime());
+
+    // Function to get the remaining time from the storage or calculate a new value
+    function getRemainingTime() {
+    const storedTime = localStorage.getItem('deadline');
+    if (storedTime) {
+      return Date.parse(storedTime) - Date.parse(new Date());
+    } else {
+      const endTime = new Date(parseInt(document.getElementById('clockdiv').getAttribute('data-end-time')));
+      return endTime.getTime() * 60 * 1000;
+    }
+  }
+  // Function to save the deadline in the storage
+  function saveDeadline(deadline) {
+    localStorage.setItem('deadline', deadline);
+  }
 </script>
 <script type="text/javascript">
-  // Replace the current history state with a new state
   function disableBackButton() {
     window.history.pushState(null, document.title, window.location.href);
   }
-
-  // Disable the back button when the page is loaded
   window.addEventListener('load', disableBackButton);
-
-  // Disable the back button when the user navigates using the browser's navigation buttons
   window.addEventListener('popstate', disableBackButton);
 </script>
 @endpush
