@@ -32,16 +32,16 @@
     </div>
 </div>
 <script>
-function confirmDelete() {
-    if (confirm("Apakah Anda yakin ingin menghapus?")) {
-        // Kode yang akan dieksekusi jika pengguna menekan tombol OK
-        // Misalnya, Anda dapat memanggil fungsi untuk menghapus data
-        // atau mengirimkan permintaan AJAX ke server.
-        alert("Data berhasil dihapus!");
-    } else {
-        // Kode yang akan dieksekusi jika pengguna menekan tombol Batal
-        alert("Penghapusan dibatalkan.");
+    function confirmDelete() {
+        if (confirm("Apakah Anda yakin ingin menghapus?")) {
+            // Code to execute if the user clicks "OK"
+            // For example, you can call a function to delete the data
+            // or send an AJAX request to the server.
+            alert("Data berhasil dihapus!");
+            // Add the code to delete the data or perform any other action here
+        } else {
+            window.location.href = event.target.href;
+        }
     }
-}
 </script>
 @endsection
