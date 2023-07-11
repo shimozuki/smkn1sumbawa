@@ -8,8 +8,13 @@
                 @if (auth()->user()->level == 'admin' || auth()->user()->level == 'guru')
                 <div class="card-header-action">
                     <a href="{{ route('admin.kelas.edit', $video->id) }}" class="btn btn-warning">Edit</a>
-                    <a href="{{ route('admin.kelas.hapusvideo', $video->id) }}" class="btn btn-danger" confirmDelete(event)>Hapus</a>
-
+                    <form action="{{ route('admin.kelas.hapusvideo', $video->id) }}" method="POST" class="d-inline swal-confirm">
+                          @csrf
+                          @method('DELETE')
+                          <button class="btn btn-danger swal-confirm" type="submit" data-id="{{$video->id }}">
+                             Hapus
+                          </button>
+                      </form>
                     <a href="/materi" class="btn btn-md btn-primary">Kembali</a>
                 </div>
                 @endif

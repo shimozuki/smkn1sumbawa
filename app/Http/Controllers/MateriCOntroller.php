@@ -12,6 +12,7 @@ use App\Models\Kelas;
 use App\Models\Ujian;
 use App\Models\MataPelajaran;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 
@@ -151,6 +152,9 @@ class MateriCOntroller extends Controller
     public function hapusvideo($id)
     {
         Video::where('id','=',$id)->delete();
-        return redirect()->route('admin.kelas')->with('status', 'Berhasil Menghapus Video Materi');
+
+        Alert::success('Berhasil', 'Praktikum berhasil dihapus');
+
+        return redirect()->route('admin.kelas');
     }
 }

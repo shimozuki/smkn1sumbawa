@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BlogController extends Controller
 {
@@ -64,12 +65,13 @@ class BlogController extends Controller
 
     public function hapus($id)
     {
-
-        $dec_id = Crypt::decrypt($id);
-        $blog = Blog::find($dec_id);
+        $blog = Blog::find($id);
         Storage::delete('public/' . $blog->thumbnail_blog);
-        Blog::where('id', '=', $dec_id)->delete();
-        return redirect()->route('admin.blog')->with('status', 'Berhasil Menghapus Blog');
+        Blog::where('id', '=', $id)->delete();
+
+        Alert::success('Berhasil', 'Materi berhasil dihapus');
+
+        return redirect()->route('admin.blog');
     }
 
     public function edit($id)

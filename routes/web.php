@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,kepsek,guru,siswa']], fun
     Route::post('materi/update/{id}', [MateriCOntroller::class, 'update'])->name('admin.kelas.update');
     Route::get('materi/tambahvideo', [MateriCOntroller::class, 'tambahvideo'])->name('admin.kelas.tambahvideo');
     Route::post('materi/simpanvideo', [MateriCOntroller::class, 'simpanvideo'])->name('admin.kelas.simpanvideo');
-    Route::get('materi/hapusvideo/{id}', [MateriCOntroller::class, 'hapusvideo'])->name('admin.kelas.hapusvideo');
+    Route::delete('materi/hapusvideo/{id}', [MateriCOntroller::class, 'hapusvideo'])->name('admin.kelas.hapusvideo');
 
     Route::get('/ujian', [UjianController::class, 'pilihMapel']);
     Route::get('/ujian/{id}', [UjianController::class, 'mulaiUjian'])->name('mulaiUjian');
@@ -78,7 +78,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,kepsek,guru,siswa']], fun
     Route::get('/admin/blog', [BlogController::class, 'index'])->name('admin.blog');
     Route::get('/admin/blog/tambah', [BlogController::class, 'tambah'])->name('admin.blog.tambah');
     Route::post('/admin/blog/simpan', [BlogController::class, 'simpan'])->name('admin.blog.simpan');
-    Route::get('/admin/blog/hapus/{id}', [BlogController::class, 'hapus'])->name('admin.blog.hapus');
+    Route::delete('/admin/blog/hapus/{id}', [BlogController::class, 'hapus'])->name('admin.blog.hapus');
     Route::get('/admin/blog/detail/{id}', [BlogController::class, 'detail'])->name('admin.blog.detail');
     Route::get('/admin/blog/edit/{id}', [BlogController::class, 'edit'])->name('admin.blog.edit');
     Route::post('/admin/blog/update/{id}', [BlogController::class, 'update'])->name('admin.blog.update');
