@@ -13,7 +13,7 @@
                         <form action="{{ route('admin.tugas.hapus', Crypt::encrypt($tugas->id)) }}" method="POST" class="d-inline swal-confirm">
                           @csrf
                           @method('DELETE')
-                          <button class="btn btn-danger swal-confirm" type="submit" data-id="{{ $blog->id }}">
+                          <button class="btn btn-danger swal-confirm" type="submit" data-id="{{ $tugas->id }}">
                              Hapus
                           </button>
                       </form>
