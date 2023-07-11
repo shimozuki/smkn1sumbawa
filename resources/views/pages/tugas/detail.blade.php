@@ -10,7 +10,13 @@
                     <a href="{{ route('admin.tugas.edit', $tugas->id) }}"
                         class="btn btn-warning">Edit</a>
                         <a href="{{ route('admin.tugas.hapus', Crypt::encrypt($tugas->id)) }}" class="btn btn-danger" onclick="confirmDelete()">Hapus</a>
-
+                        <form action="{{ route('admin.tugas.hapus', Crypt::encrypt($tugas->id)) }}" method="POST" class="d-inline swal-confirm">
+                          @csrf
+                          @method('DELETE')
+                          <button class="btn btn-danger swal-confirm" type="submit" data-id="{{ $blog->id }}">
+                             Hapus
+                          </button>
+                      </form>
                         <a href="/admin/tugas" class="btn btn-md btn-primary">Kembali</a>
                 </div>
                 @endif
@@ -40,16 +46,28 @@
     </div>
 </div>
 <script>
-function confirmDelete() {
-    if (confirm("Apakah Anda yakin ingin menghapus?")) {
-        // Kode yang akan dieksekusi jika pengguna menekan tombol OK
-        // Misalnya, Anda dapat memanggil fungsi untuk menghapus data
-        // atau mengirimkan permintaan AJAX ke server.
-        alert("Data berhasil dihapus!");
-    } else {
-        // Kode yang akan dieksekusi jika pengguna menekan tombol Batal
-        alert("Penghapusan dibatalkan.");
-    }
-}
+  $(document).ready(function () {
+      $('.swal-confirm').click(function(event) {
+          var form =  $(this).closest("form");
+          var id = $(this).data("id");
+          event.preventDefault();
+          swal({
+              title: `Yakin Hapus Data?`,
+              text: "Data yang terhapus tidak dapat dikembalikan",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya, hapus',
+          })
+          .then((willDelete) => {
+              if (willDelete) {
+              form.submit();
+              }
+          });
+      });
+  });
 </script>
 @endsection

@@ -87,7 +87,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,kepsek,guru,siswa']], fun
     Route::get('/admin/pengumpulan', [TugasController::class, 'hal'])->name('admin.pengumpulan');
     Route::get('/admin/tugas/tambah', [TugasController::class, 'tambah'])->name('admin.tugas.tambah');
     Route::post('/admin/tugas/simpan', [TugasController::class, 'simpan'])->name('admin.tugas.simpan');
-    Route::get('/admin/tugas/hapus/{id}', [TugasController::class, 'hapus'])->name('admin.tugas.hapus');
+    Route::delete('/admin/tugas/hapus/{id}', [TugasController::class, 'hapus'])->name('admin.tugas.hapus');
     Route::get('/admin/tugas/detail/{id}', [TugasController::class, 'detail'])->name('admin.tugas.detail');
     Route::get('/admin/tugas/detail/kumpul/{id}', [TugasController::class, 'kumpul'])->name('admin.tugas.kumpul');
     Route::post('/admin/tugas/simpan/kumpul/{id}', [TugasController::class, 'simpantugas'])->name('admin.tugas.simpan.kumpul');

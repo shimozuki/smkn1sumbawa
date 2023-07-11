@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TugasController extends Controller
 {
@@ -99,7 +100,9 @@ class TugasController extends Controller
 
         $dec_id = Crypt::decrypt($id);
         DB::table('tugas')->where('id', $dec_id)->delete();
-        return redirect()->route('admin.tugas')->with('status', 'Berhasil Menghapus Blog');
+
+        Alert::success('Berhasil', 'Materi berhasil dihapus');
+        return redirect()->route('admin.tugas');
     }
 
     public function edit($id)
