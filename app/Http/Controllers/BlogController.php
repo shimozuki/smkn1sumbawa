@@ -62,7 +62,6 @@ class BlogController extends Controller
             return redirect()->route('admin.blog')->with('status', 'Berhasil Menambah Blog Baru');
         }
     }
-
     public function hapus($id)
     {
         $blog = Blog::find($id);
@@ -73,7 +72,6 @@ class BlogController extends Controller
 
         return redirect()->route('admin.blog');
     }
-
     public function edit($id)
     {
         $dec_id = Crypt::decrypt($id);
